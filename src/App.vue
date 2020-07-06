@@ -1,15 +1,24 @@
 <template>
   <div id="app">
-    <h1>黑马头条</h1>
     <!-- 路由占位符 -->
-    <router-view/>
-    <!-- <span class="iconfont icon-lishi">haha</span> -->
+    <router-view />
   </div>
 </template>
 
 <script>
+// import {login} from '@/api/index.js'
+
 export default {
   name:"app"
+  // created () {
+  //  this.mylogin() 
+  // },
+  // methods:{
+  //   async mylogin() {
+  //     const res = await login()
+  //     console.log(res)
+  //   }
+  // }
 }
 </script>
 
