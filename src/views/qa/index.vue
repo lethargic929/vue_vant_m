@@ -4,10 +4,10 @@
 
 <script>
 export default {
-
+name:'qa'
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 
 </style>

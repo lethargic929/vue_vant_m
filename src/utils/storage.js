@@ -7,6 +7,7 @@ export const setItem = (key,val) => {
     window.localStorage.setItem(key,val)
   }
 }
+
 export const getItem = key => {
   const data = window.localStorage.getItem(key)
   try {
@@ -16,6 +17,7 @@ export const getItem = key => {
     return data
   }
 }
+
 export const removeItem = key => {
   window.localStorage.removeItem(key)
 }

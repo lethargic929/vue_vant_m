@@ -19,6 +19,9 @@ Vue.use(Toast)
 // 加载动态设置rem的基准值
 import 'amfe-flexible'
 
+// 时间插件的引用
+import './utils/dayjs.js'
+
 Vue.use(Vant)
 Vue.config.productionTip = false
 

@@ -1,12 +1,16 @@
 <template>
   <div class="loginIndex">
     <!-- 登录头部导航 -->
-    <van-nav-bar class="page-nav-bar" title="登录" />
+    <van-nav-bar class="page-nav-bar" title="登录">
+      <template #left>
+    <van-icon name="cross" size="18" @click="$router.back()" />
+  </template>
+    </van-nav-bar>
     <!-- /登录头部导航 -->
     <!-- 登录的表单页面 -->
     <van-form @submit="onSubmit" ref="loginForm">
       <van-field
-        v-model="user.mobile"
+        v-model="userlist.mobile"
         name="mobile"
         placeholder="请输入手机号"
         maxlength="11"
@@ -15,7 +19,7 @@
         ><span slot="left-icon" class="iconfont icon-shouji"></span
       ></van-field>
       <van-field
-        v-model="user.code"
+        v-model="userlist.code"
         name="code"
         maxlength="6"
         type="number"
@@ -53,11 +57,12 @@
 </template>
 <script>
 import { login, send_yzm } from "@/api/index.js";
+import {mapMutations} from 'vuex'
 export default {
-  name: "Login",
+  name: "login",
   data() {
     return {
-      user: {
+      userlist: {
         mobile: "",
         code: ""
       },
@@ -87,6 +92,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(['setUser']),
     async onSubmit(values) {
       // 登录中
       this.$toast.loading({
@@ -96,18 +102,18 @@ export default {
       });
       console.log("submit", values);
       try {
-        const {data:res} = await login(this.user);
+        const {data:res} = await login(this.userlist);
         console.log(res.data)
         this.$store.commit('setUser',res.data.token)
         this.$toast.success("登录成功")
         this.$router.push('/my')
       } catch (err) {
         console.log(err)
-        if (err.response.status === 400) {
-          this.$toast.fail("登录失败", err);
-        } else {
-          this.$toast.fail("登录失败，手机号或验证码错误");
-        }
+        // if (err.response.status === 400) {
+        //   this.$toast.fail("登录失败", err);
+        // } else {
+        //   this.$toast.fail("登录失败，手机号或验证码错误");
+        // }
       }
     },
     // 点击验证码验证手机号
@@ -122,15 +128,16 @@ export default {
       this.isCountDownShow = true;
       // 3. 请求发送验证码
       try {
-        await send_yzm(this.user.mobile);
+        await send_yzm(this.userlist.mobile);
         this.$toast.success("发送成功");
       } catch (err) {
+        console.log(err)
         this.isCountDownShow = false;
-        if (err.response.status === 400) {
-          this.$toast.fail("发送太频繁了，请稍后重试");
-        } else {
-          this.$toast.fail("发送失败，请稍后重试");
-        }
+        // if (err.response.status === 400) {
+        //   this.$toast.fail("发送太频繁了，请稍后重试");
+        // } else {
+        //   this.$toast.fail("发送失败，请稍后重试");
+        // }
       }
     }
   }
